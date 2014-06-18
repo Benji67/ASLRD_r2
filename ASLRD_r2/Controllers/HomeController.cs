@@ -121,5 +121,63 @@ namespace ASLRD_r2.Controllers
             }
         }
 
+        // We're using HttpContextBase to allow access to cookies.
+        public string GetCartId(HttpContextBase context)
+        {
+            if (context.Session[CartSessionKey] == null)
+            {
+                if (!string.IsNullOrWhiteSpace(context.User.Identity.Name))
+                {
+                    context.Session[CartSessionKey] =
+                        context.User.Identity.Name;
+                }
+                else
+                {
+                    // Generate a new random GUID using System.Guid class
+                    Guid tempCartId = Guid.NewGuid();
+                    // Send tempCartId back to client as a cookie
+                    context.Session[CartSessionKey] = tempCartId.ToString();
+                }
+            }
+            return context.Session[CartSessionKey].ToString();
+        }
+
+        //Ajouter au panier un produit
+        [HttpGet]
+        [HandleError(View = "ErrorAdresse")]
+        public ActionResult AddToPanier(int ProduitID)
+        {
+            // Add it to the shopping cart
+            string cart = GetCartId(this.HttpContext);
+
+            var commandeItem = db.commande.SingleOrDefault(c => c.clientID == cart);
+
+
+            // Produit information
+            var Produit = (from p in db.produit
+                           where p.produitID == ProduitID
+                           select p);
+
+            // Create a new cart item if no cart item exists
+            commandeItem = new commande
+            {
+                commandeID = 2,
+                prixtotal = 2,
+                datecommande = DateTime.Now,
+                etatcommande = "current",
+                clientID = cart,
+                restaurantID = 1
+            };
+
+            db.commande.Add(commandeItem);
+            db.SaveChanges();
+
+            //cart.AddToCart(addedProduit);
+
+            // Go back to the main store page for more shopping
+            //ViewBag.Message = "Contact message.";
+            return View("Adresse");
+        }
+
     }
 }

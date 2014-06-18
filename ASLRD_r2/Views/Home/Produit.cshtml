@@ -46,7 +46,7 @@
                 @Html.DisplayFor(modelItem => item.reduction)
             </td>
             <td>
-                @Html.ActionLink("Ajouter", "AddToCart", new { id = item })
+                @Html.ActionLink("Ajouter", "AddToPanier", new { produitID = @item.produitID })
             </td>
         </tr>
     }
