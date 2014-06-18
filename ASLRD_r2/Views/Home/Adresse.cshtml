@@ -1,0 +1,17 @@
+﻿@model IEnumerable<ASLRD_r2.DataBaseAccess.commentaire>
+
+@{
+    ViewBag.Title = "Rechercher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Rechercher votre restaurant</h2>
+
+@using (Html.BeginForm("GetRestaurant", "Home", FormMethod.Get, new { cityname = "ville" }))
+{
+    <p>
+        Find by name: @Html.TextBox("cityname")
+        <input type="submit" value="Search" />
+    </p>
+    <p class="message-error">@ViewBag.Resut</p>
+}

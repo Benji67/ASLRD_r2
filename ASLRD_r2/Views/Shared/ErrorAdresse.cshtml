@@ -1,0 +1,16 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Erreur";
+}
+
+<h2>Rechercher votre restaurant</h2>
+
+@using (Html.BeginForm("GetRestaurant", "Home", FormMethod.Get, new { cityname = "ville" }))
+{
+    <p>
+        Find by name: @Html.TextBox("cityname")
+        <input type="submit" value="Search" />
+    </p>
+    <p class="message-error">Erreur!!! Une erreur s’est produite lors du traitement de la requête.</p>
+}
+
