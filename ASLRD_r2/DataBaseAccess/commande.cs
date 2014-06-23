@@ -16,8 +16,8 @@ namespace ASLRD_r2.DataBaseAccess
     {
         public commande()
         {
-            this.menu = new HashSet<menu>();
-            this.produit = new HashSet<produit>();
+            this.detailcommande = new HashSet<detailcommande>();
+            this.detailcommandetmp = new HashSet<detailcommandetmp>();
         }
     
         public int commandeID { get; set; }
@@ -26,12 +26,8 @@ namespace ASLRD_r2.DataBaseAccess
         public Nullable<double> reduction { get; set; }
         public System.DateTime datecommande { get; set; }
         public string etatcommande { get; set; }
-        public string clientID { get; set; }
-        public int restaurantID { get; set; }
     
-        public virtual client client { get; set; }
-        public virtual restaurant restaurant { get; set; }
-        public virtual ICollection<menu> menu { get; set; }
-        public virtual ICollection<produit> produit { get; set; }
+        public virtual ICollection<detailcommande> detailcommande { get; set; }
+        public virtual ICollection<detailcommandetmp> detailcommandetmp { get; set; }
     }
 }

@@ -10,37 +10,45 @@ namespace ASLRD_r2.Controllers
     public class HomeController : Controller
     {
         private DataBaseASLRDEntities db = new DataBaseASLRDEntities();
-        public const string CartSessionKey = "CartId";
-        int UserCartId;
-
-        public ActionResult Index()
-        {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-            return View();
-        }
-
+        
+        
         [HandleError(View = "ErrorAdresse")]
         public ActionResult Adresse()
         {
-            ViewBag.Message = "Adresse message.";
-            return View();
+
+            var listecommentaire = (from c in db.commentaire select c).ToList();
+            if (listecommentaire.FirstOrDefault() == null)
+            {
+                return View();
+            }
+            else
+            {
+                return View(listecommentaire);
+            }       
         }
 
         [HandleError(View = "ErrorAdresse")]
         public ActionResult Restaurant()
         {
-            ViewBag.Message = "Restaurant message.";
+            ViewBag.Message = "Restaurant.";
             return View();
         }
 
         [HandleError(View = "ErrorAdresse")]
         public ActionResult Produit()
         {
-            ViewBag.Message = "Produit message.";
+            ViewBag.Message = "Produit.";
             return View();
         }
 
+        //[HandleError(View = "ErrorAdresse")]
+        public ActionResult Commande()
+        {
+            ViewBag.Message = "Produit.";
+            return View();
+        }
+
+        [HandleError(View = "ErrorAdresse")]
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
@@ -48,29 +56,14 @@ namespace ASLRD_r2.Controllers
             return View();
         }
 
+        [HandleError(View = "ErrorAdresse")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
-
-        [HandleError(View = "Error")]
-        [HttpGet]
-        public ActionResult Commentaire()
-        {
-            var listecommentaire = (from c in db.commentaire
-                                    select c).ToList();
-            if (listecommentaire.FirstOrDefault() == null)
-            {
-                return PartialView();
-            }
-            else
-            {
-                return PartialView(listecommentaire);
-            }
-        }
-
+               
         //liste des restaurants en fonction de la ville
         [HttpGet]
         [HandleError(View = "ErrorAdresse")]
@@ -124,6 +117,7 @@ namespace ASLRD_r2.Controllers
         // We're using HttpContextBase to allow access to cookies.
         public string GetCartId(HttpContextBase context)
         {
+           string CartSessionKey = "CartId";
             if (context.Session[CartSessionKey] == null)
             {
                 if (!string.IsNullOrWhiteSpace(context.User.Identity.Name))
@@ -145,39 +139,48 @@ namespace ASLRD_r2.Controllers
         //Ajouter au panier un produit
         [HttpGet]
         [HandleError(View = "ErrorAdresse")]
-        public ActionResult AddToPanier(int ProduitID)
+        public ActionResult AddToPanier(produit Produit)
         {
-            // Add it to the shopping cart
+            // GET Session info
             string cart = GetCartId(this.HttpContext);
+                        
+            string URLReq = HttpContext.Request.RawUrl;
 
-            var commandeItem = db.commande.SingleOrDefault(c => c.clientID == cart);
-
-
-            // Produit information
-            var Produit = (from p in db.produit
-                           where p.produitID == ProduitID
-                           select p);
-
-            // Create a new cart item if no cart item exists
-            commandeItem = new commande
+            // CHECK si l'utilisateur existe
+            var cartItem = db.client.SingleOrDefault(c => c.clientID == cart);
+            var commandedetailtmpItem = new detailcommandetmp();
+            var commandedetailItem = new detailcommande();
+            
+            if (cartItem == null)
             {
-                commandeID = 2,
-                prixtotal = 2,
-                datecommande = DateTime.Now,
-                etatcommande = "current",
-                clientID = cart,
-                restaurantID = 1
-            };
+                commandedetailtmpItem.sessionID = cart;
+                commandedetailtmpItem.datedetailcommande=DateTime.Now;
+                commandedetailtmpItem.quantitee = 1;
+                commandedetailtmpItem.restaurantID = 1;
+                commandedetailtmpItem.commandeID = 1;
+                db.detailcommandetmp.Add(commandedetailtmpItem); 
+            }
+            else
+            {
+                commandedetailItem.clientID = cart;
+                commandedetailItem.datedetailcommande = DateTime.Now;
+                commandedetailItem.quantitee = 1;
+                commandedetailItem.restaurantID = 1;
+                commandedetailItem.commandeID = 1;
+                db.detailcommandetmp.Add(commandedetailtmpItem);
+            }
 
+            var commandeItem = new commande();
+            commandeItem.prixtotal = 30;
+            commandeItem.datecommande = DateTime.Now;
+            commandeItem.etatcommande = "brouillon";
             db.commande.Add(commandeItem);
+             
             db.SaveChanges();
 
-            //cart.AddToCart(addedProduit);
+            var listedetailcommande = (from dc in db.detailcommandetmp where dc.sessionID == cart select dc).ToList();
 
-            // Go back to the main store page for more shopping
-            //ViewBag.Message = "Contact message.";
-            return View("Adresse");
+            return View("Commande", listedetailcommande);
         }
-
     }
 }

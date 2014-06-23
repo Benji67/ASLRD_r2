@@ -17,8 +17,8 @@ namespace ASLRD_r2.DataBaseAccess
         public client()
         {
             this.adresse = new HashSet<adresse>();
-            this.commande = new HashSet<commande>();
             this.commentaire = new HashSet<commentaire>();
+            this.detailcommande = new HashSet<detailcommande>();
         }
     
         public string clientID { get; set; }
@@ -31,7 +31,7 @@ namespace ASLRD_r2.DataBaseAccess
         public string genre { get; set; }
     
         public virtual ICollection<adresse> adresse { get; set; }
-        public virtual ICollection<commande> commande { get; set; }
         public virtual ICollection<commentaire> commentaire { get; set; }
+        public virtual ICollection<detailcommande> detailcommande { get; set; }
     }
 }

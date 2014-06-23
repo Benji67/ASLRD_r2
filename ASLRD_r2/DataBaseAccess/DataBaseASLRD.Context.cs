@@ -29,6 +29,8 @@ namespace ASLRD_r2.DataBaseAccess
         public DbSet<client> client { get; set; }
         public DbSet<commande> commande { get; set; }
         public DbSet<commentaire> commentaire { get; set; }
+        public DbSet<detailcommande> detailcommande { get; set; }
+        public DbSet<detailcommandetmp> detailcommandetmp { get; set; }
         public DbSet<ingredient> ingredient { get; set; }
         public DbSet<menu> menu { get; set; }
         public DbSet<ouverture> ouverture { get; set; }

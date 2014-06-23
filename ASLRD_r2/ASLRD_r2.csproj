@@ -213,6 +213,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataBaseASLRD.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DataBaseAccess\detailcommande.cs">
+      <DependentUpon>DataBaseASLRD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataBaseAccess\detailcommandetmp.cs">
+      <DependentUpon>DataBaseASLRD.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataBaseAccess\ingredient.cs">
       <DependentUpon>DataBaseASLRD.tt</DependentUpon>
     </Compile>
@@ -363,7 +369,6 @@
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -373,6 +378,7 @@
     <Content Include="Views\Home\Produit.cshtml" />
     <Content Include="Views\Shared\ErrorAdresse.cshtml" />
     <Content Include="Views\Shared\_Commentaire.cshtml" />
+    <Content Include="Views\Home\Commande.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

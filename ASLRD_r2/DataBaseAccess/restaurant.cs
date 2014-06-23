@@ -17,8 +17,9 @@ namespace ASLRD_r2.DataBaseAccess
         public restaurant()
         {
             this.adresse = new HashSet<adresse>();
-            this.commande = new HashSet<commande>();
             this.commentaire = new HashSet<commentaire>();
+            this.detailcommande = new HashSet<detailcommande>();
+            this.detailcommandetmp = new HashSet<detailcommandetmp>();
             this.menu = new HashSet<menu>();
             this.ouverture = new HashSet<ouverture>();
             this.produit = new HashSet<produit>();
@@ -34,8 +35,9 @@ namespace ASLRD_r2.DataBaseAccess
         public string nsiret { get; set; }
     
         public virtual ICollection<adresse> adresse { get; set; }
-        public virtual ICollection<commande> commande { get; set; }
         public virtual ICollection<commentaire> commentaire { get; set; }
+        public virtual ICollection<detailcommande> detailcommande { get; set; }
+        public virtual ICollection<detailcommandetmp> detailcommandetmp { get; set; }
         public virtual ICollection<menu> menu { get; set; }
         public virtual ICollection<ouverture> ouverture { get; set; }
         public virtual ICollection<produit> produit { get; set; }

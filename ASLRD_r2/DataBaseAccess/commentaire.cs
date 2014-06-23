@@ -11,6 +11,7 @@ namespace ASLRD_r2.DataBaseAccess
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class commentaire
     {
@@ -23,6 +24,7 @@ namespace ASLRD_r2.DataBaseAccess
         public int commentaireID { get; set; }
         public string commentaire1 { get; set; }
         public Nullable<int> note { get; set; }
+        [DataType(DataType.Date)]
         public System.DateTime datecommentaire { get; set; }
         public Nullable<int> restaurantID { get; set; }
         public string clientID { get; set; }
